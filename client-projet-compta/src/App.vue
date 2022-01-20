@@ -1,15 +1,34 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>Projet Compta</h1>
+  <button @click="test">Click</button>
+  <div v-for="client in clients">
+    <p>{{ client.id }} {{client.nom}} {{client.prenom}}</p>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import axios from "axios";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+  },
+  data: function () {
+    return {
+      clients: [],
+    };
+  },
+  methods: {
+    test: function () {
+      axios.get('http://localhost:8081/test').then(response => {
+        console.log(response.status); // 200
+        console.log(response.data); // { toto: "tata" }
+        this.clients = response.data;
+      }).catch(e => {
+            console.log(e);
+      });
+    }
   }
 }
 </script>
